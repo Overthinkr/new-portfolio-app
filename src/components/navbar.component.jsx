@@ -4,7 +4,7 @@ import flightlogo from "../resources/airplane_logo.jpg";
 
 export default function Navbar() {
   return (
-    <div className="flex fixed w-full mt-10">
+    <div className="flex flex-col fixed w-full mt-10 drop-shadow-xl">
       <div className="flex flex-row justify-between w-[90%] items-center mx-auto bg-white text-center p-2 rounded-3xl h-35 z-50">
         <div className="ml-3">
           <Link to="/">
@@ -12,15 +12,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex flex-row gap-10 mr-10 justify-center text-center items-center">
-          <NavLink
-            to="/about"
-            style={({ isActive, isPending }) => {
-              return {
-                fontWeight: isActive ? "bold" : "",
-                color: isPending ? "red" : "black",
-              };
-            }}
-          >
+          <NavLink to="/about">
             <h2 className="cursor-pointer hover:text-indigo hover:font-semibold hover:tracking-wider transition-all">
               {" "}
               About Mayank{" "}
@@ -32,15 +24,7 @@ export default function Navbar() {
               Movie Game{" "}
             </h2>
           </NavLink>
-          <NavLink
-            to="/blog"
-            style={({ isActive, isPending }) => {
-              return {
-                fontWeight: isActive ? "bold" : "",
-                color: isPending ? "red" : "black",
-              };
-            }}
-          >
+          <NavLink to="/blog">
             <h2 className="cursor-pointer hover:text-indigo hover:font-semibold hover:tracking-wider transition-all">
               {" "}
               Blog{" "}

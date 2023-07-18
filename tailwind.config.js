@@ -9,6 +9,7 @@ module.exports = {
       },
       backgroundImage: {
         "landing-one": `url('./resources/landing-one.jpg')`,
+        "landing-two": `url('./resources/landing-two.jpg')`,
       },
     },
   },
