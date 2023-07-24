@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "../components/navbar.component";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { movieActions } from "../store/movies.slice";
 import MovieRatings from "../components/movieratings.component";
 import axios from "axios";
+import tmdb from "../resources//logo.png";
 
 export default function MovieGame() {
   const dispatch = useDispatch();
@@ -48,17 +49,19 @@ export default function MovieGame() {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({ initialValues: { movie1: "", movie2: "", movie3: "" } });
 
-  const handleMovies = (event) => {
-    setMovies([...movies, event.target.value]);
+  const handleMovies = (event, index) => {
+    const updatedMovies = [...movies];
+    updatedMovies[index] = event.target.value;
+    setMovies(updatedMovies);
   };
 
   return (
     <>
       <Navbar />
       <div className=" bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed">
-        <div className="flex flex-col movie-body pt-[130px] px-2 mx-28 gap-8">
+        <div className="flex flex-col movie-body pt-[130px] px-2 mx-28 gap-6">
           <div className="movie-headers flex flex-col gap-4">
             <h1 className="text-4xl text-back font-semibold">
               LET'S RATE YOUR TASTE
@@ -83,36 +86,42 @@ export default function MovieGame() {
                 displayRatings(movies);
               })}
             >
-              <input
-                {...register("movie1", { required: "This is required!" })}
-                type="text"
-                placeholder="Enter Movie/Series one:"
-                onChange={handleMovies}
-                className="rounded-3xl ring-offset-1 ring-2 p-1 px-3 drop-shadow-md"
-              />
-              {errors.movie1 && (
-                <span className="text-red-500">{errors.movie1.message}</span>
-              )}
-              <input
-                {...register("movie2", { required: "This is required!" })}
-                type="text"
-                placeholder="Enter Movie/Series two:"
-                onChange={handleMovies}
-                className="rounded-3xl ring-offset-1 ring-2 p-1 px-3 drop-shadow-md"
-              />
-              {errors.movie2 && (
-                <span className="text-red-500">{errors.movie2.message}</span>
-              )}
-              <input
-                {...register("movie3", { required: "This is required!" })}
-                type="text"
-                placeholder="Enter Movie/Series three:"
-                onChange={handleMovies}
-                className="rounded-3xl ring-offset-1 ring-2 p-1 px-3 drop-shadow-md"
-              />
-              {errors.movie3 && (
-                <span className="text-red-500">{errors.movie3.message}</span>
-              )}
+              <div className="input-field flex flex-col">
+                <input
+                  {...register("movie1", { required: "This is required!" })}
+                  type="text"
+                  placeholder="Enter Movie/Series one:"
+                  onChange={(event) => handleMovies(event, 0)}
+                  className="rounded-3xl ring-offset-1 ring-2 p-1 px-3 drop-shadow-md bg-[#e8f0fe]"
+                />
+                {errors.movie1 && (
+                  <span className="text-red-500">{errors.movie1.message}</span>
+                )}
+              </div>
+              <div className="input-field flex flex-col">
+                <input
+                  {...register("movie2", { required: "This is required!" })}
+                  type="text"
+                  placeholder="Enter Movie/Series two:"
+                  onChange={(event) => handleMovies(event, 1)}
+                  className="rounded-3xl ring-offset-1 ring-2 p-1 px-3 drop-shadow-md bg-[#e8f0fe]"
+                />
+                {errors.movie2 && (
+                  <span className="text-red-500">{errors.movie2.message}</span>
+                )}
+              </div>
+              <div className="input-field flex flex-col">
+                <input
+                  {...register("movie3", { required: "This is required!" })}
+                  type="text"
+                  placeholder="Enter Movie/Series three:"
+                  onChange={(event) => handleMovies(event, 2)}
+                  className="rounded-3xl ring-offset-1 ring-2 p-1 px-3 drop-shadow-md bg-[#e8f0fe]"
+                />
+                {errors.movie3 && (
+                  <span className="text-red-500">{errors.movie3.message}</span>
+                )}
+              </div>
               <div className="flex flex-col submit-box bg-toppage m-auto p-3 rounded-xl mt-3 drop-shadow-lg">
                 <button type="submit bg-white">Submit</button>
               </div>
@@ -121,6 +130,12 @@ export default function MovieGame() {
           <div className="movie-ratings">
             {submitted && <MovieRatings results={results} />}
           </div>
+        </div>
+        <div className="fixed right-2 bottom-2 flex flex-row items-end gap-2">
+          <p className="align-bottom">Powered By:</p>
+          <a href="https://www.themoviedb.org/">
+            <img className="cursor-pointer" src={tmdb} alt="tmdb" width={100} />
+          </a>
         </div>
       </div>
     </>

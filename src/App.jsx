@@ -10,6 +10,17 @@ function App() {
     <>
       <div className="App h-screen bg-landing-one bg-cover bg-no-repeat bg-left-top m-auto">
         <Navbar />
+        <div
+          className="flex flex-col absolute left-1/2 bottom-5 bg-white rounded-full p-3 cursor-pointer"
+          onClick={() => {
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            });
+          }}
+        >
+          <span className="material-icons">keyboard_arrow_down</span>
+        </div>
       </div>
       <div className="h-screen flex flex-col bg-landing-two bg-cover bg-no-repeat bg-left align-middle justify-end items-center text-center text-white">
         <div className="flex flex-col align-middle justify-end items-center text-center gap-5 m-4">

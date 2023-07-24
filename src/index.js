@@ -9,6 +9,7 @@ import MovieGame from "./pages/moviegame";
 import Blog from "./pages/blog";
 import { Provider } from "react-redux";
 import store from "./store";
+import Login from "./pages/login";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
   {
     path: "/blog",
     element: <Blog />,
+    //loader:
+  },
+  {
+    path: "/login",
+    element: <Login />,
     //loader:
   },
 ]);
