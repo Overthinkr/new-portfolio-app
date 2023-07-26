@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { loginActions } from "../store/login.slice";
+import blankprof from "../resources/blank-prof.jpg";
 
 const Navbar = () => {
   const [showUserDetails, setShowUserDetails] = useState(false);
@@ -12,6 +13,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.login.login);
   const userDeets = useSelector((state) => state.login.info);
+  console.log(userDeets);
 
   const navigate = useNavigate();
 
@@ -58,8 +60,8 @@ const Navbar = () => {
                 onMouseLeave={() => setShowUserDetails(false)}
               >
                 <img
-                  src={userDeets[2]}
-                  alt="bla"
+                  src={decodeURI(userDeets[2]) || blankprof}
+                  alt="prof"
                   width={35}
                   className="rounded-3xl hover:transform transition-transform hover:scale-110 cursor-pointer"
                 />
@@ -68,7 +70,7 @@ const Navbar = () => {
                     <p className="text-center text-sm"> {userDeets[0]} </p>
                     <p className="text-center text-sm "> {userDeets[1]} </p>
                     <button
-                      className="text-center text-lg font-semibold text-red-500 "
+                      className="text-center text-lg font-semibold text-red-500 transition-all hover:transform hover:scale-105 hover:tracking-wide cursor-pointer"
                       onClick={() => {
                         SignUserOut();
                       }}
