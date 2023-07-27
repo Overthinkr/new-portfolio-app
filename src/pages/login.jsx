@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  updateProfile,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -38,13 +39,6 @@ export default function Login() {
         localStorage.setItem("isLoggedIn", true);
         navigate("/blog");
         dispatch(loginActions.toggleLoggedIn());
-        dispatch(
-          loginActions.setInfo([
-            result.user.displayName,
-            result.user.email,
-            result.user.photoURL,
-          ])
-        );
       })
       .catch((error) => {
         console.log("Error signing in with Google:", error);
@@ -55,7 +49,6 @@ export default function Login() {
     signInWithEmailAndPassword(auth, user, password)
       .then((userCredential) => {
         const guser = userCredential.user;
-        dispatch(loginActions.setInfo([guser.email]));
         dispatch(loginActions.toggleLoggedIn());
         navigate("/blog");
       })
@@ -71,13 +64,18 @@ export default function Login() {
       });
   };
 
-  const handleSignUpSubmit = () => {
+  const handleSignUpSubmit = async () => {
     createUserWithEmailAndPassword(auth, signupUser, signupPassword)
       .then((userCredential) => {
         const guser = userCredential.user;
-        dispatch(loginActions.setInfo([guser.email]));
         dispatch(loginActions.toggleLoggedIn());
         navigate("/blog");
+        updateProfile(auth.currentUser, {
+          photoURL:
+            "https://divedigital.id/wp-content/uploads/2022/07/1-Blank-TikTok-Default-PFP.jpg",
+        }).catch((error) => {
+          console.log(error);
+        });
       })
       .catch((error) => {
         const errorMessage = error.message;

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar.component";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import { auth, db } from "../firebase-config";
 
 export default function Blog() {
   const navigate = useNavigate();
   const [addBlog, setAddBlog] = useState(false);
-  console.log(addBlog);
 
   const isLoggedIn = useSelector((state) => state.login.login);
 
@@ -15,6 +16,21 @@ export default function Blog() {
       navigate("/login");
     }
   }, []);
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const blogCollectionRef = collection(db, "blogposts");
+  const handleAddBlog = async (event) => {
+    event.preventDefault();
+    await addDoc(blogCollectionRef, {
+      Title: title,
+      Content: content,
+      Author: auth.currentUser.email,
+      AuthorImg: auth.currentUser.photoURL,
+    });
+    setAddBlog(false);
+  };
 
   return (
     <>
@@ -36,18 +52,27 @@ export default function Blog() {
                   close
                 </span>
               </div>
-              <div className="flex flex-col gap-4 w-[98%]">
+              <div className="flex flex-col gap-6 w-[98%]">
                 <input
                   type="text"
                   placeholder="Title"
-                  className="rounded-3xl ring-offset-1 ring-2 p-1 px-3 drop-shadow-md bg-[#e8f0fe]"
+                  className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe]"
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
                 />
                 <textarea
                   type="text"
                   placeholder="Content..."
-                  className="rounded-3xl ring-offset-1 ring-2 p-1 px-3 drop-shadow-md bg-[#e8f0fe] h-80"
+                  className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe] h-80"
+                  onChange={(e) => {
+                    setContent(e.target.value);
+                  }}
                 />
-                <button className="bg-indigo text-white rounded-3xl p-2 px-4 hover:bg-indigo-600 hover:drop-shadow-xl transition-all active:transform active:scale-[.98]">
+                <button
+                  className="bg-indigo text-white rounded-3xl p-2 px-4 hover:bg-indigo-600 hover:drop-shadow-xl transition-all active:transform active:scale-[.98]"
+                  onClick={handleAddBlog}
+                >
                   Add Blog
                 </button>
               </div>

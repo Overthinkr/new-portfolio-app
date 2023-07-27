@@ -5,16 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { loginActions } from "../store/login.slice";
-import blankprof from "../resources/blank-prof.jpg";
 
 const Navbar = () => {
   const [showUserDetails, setShowUserDetails] = useState(false);
 
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.login.login);
-  const userDeets = useSelector((state) => state.login.info);
-  console.log(userDeets);
-
   const navigate = useNavigate();
 
   const SignUserOut = () => {
@@ -60,15 +56,21 @@ const Navbar = () => {
                 onMouseLeave={() => setShowUserDetails(false)}
               >
                 <img
-                  src={decodeURI(userDeets[2]) || blankprof}
+                  src={auth.currentUser.photoURL}
                   alt="prof"
                   width={35}
                   className="rounded-3xl hover:transform transition-transform hover:scale-110 cursor-pointer"
                 />
                 {showUserDetails && (
                   <div className="userdeets absolute right-6 top-2 mt-10 mr-10 bg-white rounded-2xl p-2 drop-shadow-md">
-                    <p className="text-center text-sm"> {userDeets[0]} </p>
-                    <p className="text-center text-sm "> {userDeets[1]} </p>
+                    <p className="text-center text-sm">
+                      {" "}
+                      {auth.currentUser.displayName}{" "}
+                    </p>
+                    <p className="text-center text-sm ">
+                      {" "}
+                      {auth.currentUser.email}{" "}
+                    </p>
                     <button
                       className="text-center text-lg font-semibold text-red-500 transition-all hover:transform hover:scale-105 hover:tracking-wide cursor-pointer"
                       onClick={() => {

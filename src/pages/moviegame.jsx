@@ -41,8 +41,8 @@ export default function MovieGame() {
 
     const allVoteAverage =
       voteAverages.reduce((acc, curr) => acc + curr, 0) / voteAverages.length;
-
     setResults([allVoteAverage]);
+    console.log(allVoteAverage);
   };
 
   const {
@@ -55,6 +55,15 @@ export default function MovieGame() {
     const updatedMovies = [...movies];
     updatedMovies[index] = event.target.value;
     setMovies(updatedMovies);
+    console.log(movies);
+    console.log("handleMovies");
+  };
+
+  const showRatings = () => {
+    dispatch(movieActions.setMovies(movies));
+    displayRatings(movies);
+    setSubmitted(true);
+    console.log("showRatings");
   };
 
   return (
@@ -80,11 +89,7 @@ export default function MovieGame() {
           <div className="movie-form flex flex-col mx-4">
             <form
               className="flex flex-col gap-6"
-              onSubmit={handleSubmit((data) => {
-                dispatch(movieActions.setMovies(movies));
-                setSubmitted(true);
-                displayRatings(movies);
-              })}
+              onSubmit={handleSubmit(showRatings)}
             >
               <div className="input-field flex flex-col">
                 <input
