@@ -23,7 +23,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex flex-col fixed w-full mt-10 drop-shadow-xl">
+    <div className="flex flex-col fixed w-full mt-10 drop-shadow-xl z-50">
       <div className="flex flex-row justify-between w-[90%] items-center mx-auto bg-white text-center p-2 rounded-3xl h-35 z-50">
         <div className="ml-3">
           <Link to="/">

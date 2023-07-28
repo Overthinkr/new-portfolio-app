@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar.component";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
+import BlogCard from "../components/blogcard.component";
 
 export default function Blog() {
   const navigate = useNavigate();
@@ -32,10 +33,21 @@ export default function Blog() {
     setAddBlog(false);
   };
 
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const getBlogs = async () => {
+      const data = await getDocs(blogCollectionRef);
+      setBlogs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+
+    getBlogs();
+  }, [blogs, blogCollectionRef]);
+
   return (
     <>
       <Navbar />
-      <div className=" bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed">
+      <div className=" bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed z-0">
         {addBlog && (
           <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
             <div className="bg-white w-[90%] rounded-3xl flex flex-col justify-center items-center p-8 gap-6">
@@ -79,7 +91,7 @@ export default function Blog() {
             </div>
           </div>
         )}
-        <div className="blog-body flex flex-col pt-[130px] px-2 mx-28 gap-6">
+        <div className="blog-body flex flex-col pt-[130px] px-2 mx-28 gap-2">
           <div
             className="bg-blue-600 text-white m-auto px-5 py-3 justify-center align-middle text-center cursor-pointer flex flex-row gap-4 rounded-xl drop-shadow-xl"
             onClick={() => {
@@ -89,8 +101,21 @@ export default function Blog() {
             <span className="material-icons"> add </span>
             <p> Add a new Blog </p>
           </div>
-          <div className="blog-cards grid grid-cols-3 grid-flow-row ">
-            {/* <BlogCard> */}
+          <div className="blog-cards grid grid-cols-3 grid-flow-row gap-4 py-6 ">
+            {blogs.map((blog, i) => {
+              if (blog.Author === "roy050703@gmail.com") {
+                return (
+                  <BlogCard
+                    key={i}
+                    title={blog.Title}
+                    content={blog.Content}
+                    author={blog.Author}
+                    authorimg={blog.AuthorImg}
+                  />
+                );
+              }
+              return null;
+            })}
           </div>
         </div>
       </div>

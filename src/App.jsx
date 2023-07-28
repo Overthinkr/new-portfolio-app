@@ -26,7 +26,7 @@ function App() {
         <div className="flex flex-col align-middle justify-end items-center text-center gap-5 m-4">
           <h2 className="text-2xl font-bold">Find the Repository here:</h2>
           <a
-            href="https://github.com/Overthinkr/new-portfolio-app"
+            href="https://github.com/Overthinkr"
             target="_blank"
             rel="noopener noreferrer"
           >
