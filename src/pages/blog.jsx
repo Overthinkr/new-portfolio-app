@@ -9,19 +9,33 @@ import BlogCard from "../components/blogcard.component";
 export default function Blog() {
   const navigate = useNavigate();
   const [addBlog, setAddBlog] = useState(false);
-
   const isLoggedIn = useSelector((state) => state.login.login);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     navigate("/login");
+  //   }
+  // }, [isLoggedIn, navigate]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
   const blogCollectionRef = collection(db, "blogposts");
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const data = await getDocs(blogCollectionRef);
+      const blogsData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setBlogs(blogsData);
+    };
+
+    fetchBlogs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleAddBlog = async (event) => {
     event.preventDefault();
     await addDoc(blogCollectionRef, {
@@ -30,24 +44,23 @@ export default function Blog() {
       Author: auth.currentUser.email,
       AuthorImg: auth.currentUser.photoURL,
     });
-    setAddBlog(false);
-  };
 
-  const [blogs, setBlogs] = useState([]);
-
-  useEffect(() => {
-    const getBlogs = async () => {
-      const data = await getDocs(blogCollectionRef);
-      setBlogs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const newBlog = {
+      Title: title,
+      Content: content,
+      Author: auth.currentUser.email,
+      AuthorImg: auth.currentUser.photoURL,
     };
 
-    getBlogs();
-  }, [blogs, blogCollectionRef]);
+    setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
+
+    setAddBlog(false);
+  };
 
   return (
     <>
       <Navbar />
-      <div className=" bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed z-0">
+      <div className="bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed z-0">
         {addBlog && (
           <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
             <div className="bg-white w-[90%] rounded-3xl flex flex-col justify-center items-center p-8 gap-6">
@@ -68,7 +81,7 @@ export default function Blog() {
                 <input
                   type="text"
                   placeholder="Title"
-                  className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe]"
+                  className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe] whitespace-pre"
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
@@ -76,7 +89,7 @@ export default function Blog() {
                 <textarea
                   type="text"
                   placeholder="Content..."
-                  className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe] h-80"
+                  className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe] h-80 whitespace-pre"
                   onChange={(e) => {
                     setContent(e.target.value);
                   }}
@@ -92,30 +105,39 @@ export default function Blog() {
           </div>
         )}
         <div className="blog-body flex flex-col pt-[130px] px-2 mx-28 gap-2">
-          <div
-            className="bg-blue-600 text-white m-auto px-5 py-3 justify-center align-middle text-center cursor-pointer flex flex-row gap-4 rounded-xl drop-shadow-xl"
-            onClick={() => {
-              setAddBlog(true);
-            }}
-          >
-            <span className="material-icons"> add </span>
-            <p> Add a new Blog </p>
-          </div>
+          {isLoggedIn ? (
+            <div
+              className="bg-blue-600 text-white m-auto px-5 py-3 justify-center align-middle text-center cursor-pointer flex flex-row gap-4 rounded-xl drop-shadow-xl"
+              onClick={() => {
+                setAddBlog(true);
+              }}
+            >
+              <span className="material-icons"> add </span>
+              <p> Add a new Blog </p>
+            </div>
+          ) : (
+            <div
+              className="bg-blue-600 text-white m-auto px-5 py-3 justify-center align-middle text-center cursor-pointer flex flex-row gap-4 rounded-xl drop-shadow-xl"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              <p> Login/Signup to add your own blogs! </p>
+            </div>
+          )}
           <div className="blog-cards grid grid-cols-3 grid-flow-row gap-4 py-6 ">
-            {blogs.map((blog, i) => {
-              if (blog.Author === "roy050703@gmail.com") {
-                return (
-                  <BlogCard
-                    key={i}
-                    title={blog.Title}
-                    content={blog.Content}
-                    author={blog.Author}
-                    authorimg={blog.AuthorImg}
-                  />
-                );
-              }
-              return null;
-            })}
+            {blogs.map((blog, i) => (
+              <BlogCard
+                key={i}
+                title={blog.Title}
+                content={blog.Content}
+                author={blog.Author}
+                authorimg={blog.AuthorImg}
+                id={blog.id}
+                blogs={blogs}
+                setBlogs={setBlogs}
+              />
+            ))}
           </div>
         </div>
       </div>

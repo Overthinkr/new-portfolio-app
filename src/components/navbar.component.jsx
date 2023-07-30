@@ -15,10 +15,10 @@ const Navbar = () => {
 
   const SignUserOut = () => {
     signOut(auth).then(() => {
+      navigate("/");
       localStorage.removeItem("user");
       localStorage.removeItem("isLoggedIn");
       dispatch(loginActions.toggleLoggedIn());
-      navigate("/");
     });
   };
 
@@ -63,11 +63,11 @@ const Navbar = () => {
                 />
                 {showUserDetails && (
                   <div className="userdeets absolute right-6 top-2 mt-10 mr-10 bg-white rounded-2xl p-2 drop-shadow-md">
-                    <p className="text-center text-sm">
+                    <p className="text-center text-sm font-bold">
                       {" "}
                       {auth.currentUser.displayName}{" "}
                     </p>
-                    <p className="text-center text-sm ">
+                    <p className="text-center text-sm font-semibold">
                       {" "}
                       {auth.currentUser.email}{" "}
                     </p>

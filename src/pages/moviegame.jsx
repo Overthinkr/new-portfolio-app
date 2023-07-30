@@ -11,7 +11,7 @@ export default function MovieGame() {
   const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
   const [movies, setMovies] = useState([]);
-
+  const [recommendList, setRecommendList] = useState([]);
   const [results, setResults] = useState([]);
 
   const displayRatings = async (names) => {
@@ -42,9 +42,26 @@ export default function MovieGame() {
     const allVoteAverage =
       voteAverages.reduce((acc, curr) => acc + curr, 0) / voteAverages.length;
     setResults([allVoteAverage]);
-    console.log(allVoteAverage);
-  };
 
+    const recommendationReplies = movieIds.map((result) =>
+      axios.get(
+        `https://api.themoviedb.org/3/discover/movie?api_key=3bf98afbe95c4d4b4fd292ed2e9eedab&sort_by=popularity.desc&vote_average.gte=${result}&vote_count.gte=1000`
+      )
+    );
+
+    const recommendationResponse = await Promise.all(recommendationReplies);
+
+    const recommendations = recommendationResponse.map(
+      (recommendationResponse) =>
+        recommendationResponse.data.results.map((movie) => ({
+          title: movie.title,
+          posterUrl: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+        }))
+    );
+
+    setRecommendList(recommendations);
+    console.log(recommendList);
+  };
   const {
     register,
     formState: { errors },
@@ -59,9 +76,9 @@ export default function MovieGame() {
     console.log("handleMovies");
   };
 
-  const showRatings = () => {
+  const showRatings = async () => {
     dispatch(movieActions.setMovies(movies));
-    displayRatings(movies);
+    await displayRatings(movies);
     setSubmitted(true);
     console.log("showRatings");
   };
