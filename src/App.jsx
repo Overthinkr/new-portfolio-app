@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Button from "./components/button.component";
 import Navbar from "./components/navbar.component";
 import gitlogo from "./resources/github.jpg";
 import linktree from "./resources/linktree.jpg";
 
-function App() {
+export default function App() {
   return (
     <>
       <div className="App h-screen bg-landing-one bg-cover bg-no-repeat bg-left-top m-auto">
@@ -47,5 +47,3 @@ function App() {
     </>
   );
 }
-
-export default App;

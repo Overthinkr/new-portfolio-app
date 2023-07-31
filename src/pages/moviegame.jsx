@@ -6,6 +6,7 @@ import { movieActions } from "../store/movies.slice";
 import MovieRatings from "../components/movieratings.component";
 import axios from "axios";
 import tmdb from "../resources//logo.png";
+import MovieFrame from "../components/movieframe.component";
 
 export default function MovieGame() {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ export default function MovieGame() {
 
     const recommendationReplies = movieIds.map((result) =>
       axios.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=3bf98afbe95c4d4b4fd292ed2e9eedab&sort_by=popularity.desc&vote_average.gte=${result}&vote_count.gte=1000`
+        `https://api.themoviedb.org/3/movie/${result}/recommendations?api_key=3bf98afbe95c4d4b4fd292ed2e9eedab`
       )
     );
 
@@ -58,9 +59,7 @@ export default function MovieGame() {
           posterUrl: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
         }))
     );
-
-    setRecommendList(recommendations);
-    console.log(recommendList);
+    setRecommendList([recommendations]);
   };
   const {
     register,
@@ -72,21 +71,18 @@ export default function MovieGame() {
     const updatedMovies = [...movies];
     updatedMovies[index] = event.target.value;
     setMovies(updatedMovies);
-    console.log(movies);
-    console.log("handleMovies");
   };
 
   const showRatings = async () => {
     dispatch(movieActions.setMovies(movies));
     await displayRatings(movies);
     setSubmitted(true);
-    console.log("showRatings");
   };
 
   return (
     <>
       <Navbar />
-      <div className=" bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed">
+      <div className="bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed">
         <div className="flex flex-col movie-body pt-[130px] px-2 mx-28 gap-6">
           <div className="movie-headers flex flex-col gap-4">
             <h1 className="text-4xl text-back font-semibold">
@@ -145,20 +141,56 @@ export default function MovieGame() {
                 )}
               </div>
               <div className="flex flex-col submit-box bg-toppage m-auto p-3 rounded-xl mt-3 drop-shadow-lg">
-                <button type="submit bg-white">Submit</button>
+                <button type="submit" className="bg-inherit">
+                  Submit
+                </button>
               </div>
             </form>
           </div>
           <div className="movie-ratings">
             {submitted && <MovieRatings results={results} />}
           </div>
+          <div
+            className="flex flex-col absolute left-1/2 bottom-2 bg-black rounded-full p-3 cursor-pointer hover:drop-shadow-2xl"
+            onClick={() => {
+              window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth",
+              });
+            }}
+          >
+            <span className="material-icons text-white">
+              keyboard_arrow_down
+            </span>
+          </div>
+          {submitted && (
+            <div className="flex flex-col gap-4 my-10">
+              <h1 className="text-4xl text-back font-semibold">
+                RECOMMENDATIONS FROM YOUR PICKS
+              </h1>
+              <h2 className="tracking-wider font-bold">CUZ AGAIN WHY NOT?</h2>
+              <div className="recommended-movies flex flex-row gap-16">
+                {recommendList.map((recommendmovie) => {
+                  console.log(recommendmovie);
+                  return recommendmovie.map((movie, i) => {
+                    console.log(movie);
+                    <MovieFrame
+                      key={i}
+                      movie={movie.title}
+                      image={movie.posterUrl}
+                    />;
+                  });
+                })}
+              </div>
+            </div>
+          )}
         </div>
-        <div className="fixed right-2 bottom-2 flex flex-row items-end gap-2">
-          <p className="align-bottom">Powered By:</p>
-          <a href="https://www.themoviedb.org/">
-            <img className="cursor-pointer" src={tmdb} alt="tmdb" width={100} />
-          </a>
-        </div>
+      </div>
+      <div className="fixed right-2 bottom-2 flex flex-row items-end gap-2">
+        <p className="align-bottom">Powered By:</p>
+        <a href="https://www.themoviedb.org/">
+          <img className="cursor-pointer" src={tmdb} alt="tmdb" width={100} />
+        </a>
       </div>
     </>
   );
