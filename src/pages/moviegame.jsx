@@ -173,7 +173,6 @@ export default function MovieGame() {
                 {recommendList.map((recommendmovie) => {
                   console.log(recommendmovie);
                   return recommendmovie.map((movie, i) => {
-                    console.log(movie);
                     <MovieFrame
                       key={i}
                       movie={movie.title}
