@@ -48,7 +48,6 @@ export default function Login() {
   const handleLoginSubmit = (data) => {
     signInWithEmailAndPassword(auth, user, password)
       .then((userCredential) => {
-        const guser = userCredential.user;
         dispatch(loginActions.toggleLoggedIn());
         navigate("/blog");
       })
@@ -67,7 +66,6 @@ export default function Login() {
   const handleSignUpSubmit = async () => {
     createUserWithEmailAndPassword(auth, signupUser, signupPassword)
       .then((userCredential) => {
-        const guser = userCredential.user;
         dispatch(loginActions.toggleLoggedIn());
         navigate("/blog");
         updateProfile(auth.currentUser, {
