@@ -7,14 +7,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginActions } from "../store/login.slice";
 import glogo from "../resources/g-logo.png";
 import { useForm } from "react-hook-form";
 
 export default function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [loggedIn, setLoggedIn] = useState(false);
   const [signUp, setSignUp] = useState(false);
   const [allErrors, setAllErrors] = useState("");
@@ -38,7 +35,6 @@ export default function Login() {
         localStorage.setItem("user", JSON.stringify(result.user));
         localStorage.setItem("isLoggedIn", true);
         navigate("/blog");
-        dispatch(loginActions.toggleLoggedIn());
       })
       .catch((error) => {
         console.log("Error signing in with Google:", error);
@@ -48,8 +44,6 @@ export default function Login() {
   const handleLoginSubmit = (data) => {
     signInWithEmailAndPassword(auth, user, password)
       .then((userCredential) => {
-        const guser = userCredential.user;
-        dispatch(loginActions.toggleLoggedIn());
         navigate("/blog");
       })
       .catch((error) => {
@@ -67,8 +61,6 @@ export default function Login() {
   const handleSignUpSubmit = async () => {
     createUserWithEmailAndPassword(auth, signupUser, signupPassword)
       .then((userCredential) => {
-        const guser = userCredential.user;
-        dispatch(loginActions.toggleLoggedIn());
         navigate("/blog");
         updateProfile(auth.currentUser, {
           photoURL:

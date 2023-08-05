@@ -10,6 +10,7 @@ import Blog from "./pages/blog";
 import { Provider } from "react-redux";
 import store from "./store";
 import Login from "./pages/login";
+import { UserProvider } from "./context/user.context";
 
 const router = createBrowserRouter([
   {
@@ -42,9 +43,11 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <UserProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </UserProvider>
   </React.StrictMode>
 );
 

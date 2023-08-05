@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { auth, db } from "../firebase-config";
+import React, { useContext, useState } from "react";
+import { db } from "../firebase-config";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { UserContext } from "../context/user.context";
 
 export default function BlogCard({
   title,
@@ -18,7 +19,7 @@ export default function BlogCard({
   const [newTitle, setNewTitle] = useState(title);
   const [newContent, setNewContent] = useState(content);
 
-  const currentUserEmail = auth.currentUser?.email;
+  const { user } = useContext(UserContext);
 
   const handleEdit = async () => {
     console.log(title);
@@ -54,13 +55,17 @@ export default function BlogCard({
 
   return (
     <>
-      <div className="blog-card flex flex-col bg-white text-black gap-3 p-4 rounded-2xl drop-shadow-lg hover:drop-shadow-2xl first:col-span-2 justify-between">
+      <div
+        className={`blog-card flex flex-col cursor-pointer bg-white text-black gap-3 p-4 rounded-2xl drop-shadow-lg hover:drop-shadow-2xl col-span-${Math.ceil(
+          Math.random() * 2
+        )} justify-between`}
+      >
         <div className="blog-card-header flex flex-row justify-between items-center max-h-5 overflow-hidden">
           <h3 className="text-xl font-bold overflow-hidden">
             {title.toUpperCase()}
           </h3>
           <div className="edit-options flex flex-row gap-2">
-            {currentUserEmail === author && (
+            {user?.email === author && (
               <>
                 <span
                   className="material-icons cursor-pointer text-blue-600"
@@ -99,7 +104,7 @@ export default function BlogCard({
             {content}
           </p>
         </div>
-        <div className="blog-footer flex flex-row gap-4">
+        <div className="blog-footer flex flex-row gap-4 overflow-hidden">
           <img src={authorimg} alt="author" className="rounded-full w-8 h-8" />
           <p className="text-lg font-semibold">{author}</p>
         </div>

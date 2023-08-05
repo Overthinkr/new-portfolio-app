@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/navbar.component";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 import BlogCard from "../components/blogcard.component";
+import { UserContext } from "../context/user.context";
 
 export default function Blog() {
   const navigate = useNavigate();
   const [addBlog, setAddBlog] = useState(false);
-  const isLoggedIn = useSelector((state) => state.login.login);
 
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     navigate("/login");
-  //   }
-  // }, [isLoggedIn, navigate]);
+  const { isLoggedIn } = useContext(UserContext);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const blogCollectionRef = collection(db, "blogposts");
   const [blogs, setBlogs] = useState([]);
+  const [titleQuery, setTitleQuery] = useState("");
+  const [authorQuery, setAuthorQuery] = useState("");
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -104,7 +101,7 @@ export default function Blog() {
             </div>
           </div>
         )}
-        <div className="blog-body flex flex-col pt-[130px] px-2 mx-28 gap-2">
+        <div className="blog-body flex flex-col pt-[110px] px-2 mx-28 gap-5">
           {isLoggedIn ? (
             <div
               className="bg-blue-600 text-white m-auto px-5 py-3 justify-center align-middle text-center cursor-pointer flex flex-row gap-4 rounded-xl drop-shadow-xl"
@@ -125,19 +122,45 @@ export default function Blog() {
               <p> Login/Signup to add your own blogs! </p>
             </div>
           )}
-          <div className="blog-cards grid grid-cols-3 grid-flow-row gap-4 py-6 ">
-            {blogs.map((blog, i) => (
-              <BlogCard
-                key={i}
-                title={blog.Title}
-                content={blog.Content}
-                author={blog.Author}
-                authorimg={blog.AuthorImg}
-                id={blog.id}
-                blogs={blogs}
-                setBlogs={setBlogs}
-              />
-            ))}
+          <div className="blog-search flex flex-row w-full gap-6 justify-center">
+            <input
+              type="text"
+              placeholder="Enter Title to search:"
+              className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe] whitespace-pre w-full"
+              onChange={(e) => {
+                setTitleQuery(e.target.value);
+              }}
+            />
+            <input
+              type="text"
+              placeholder="Enter Author email to search:"
+              className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe] whitespace-pre w-full"
+              onChange={(e) => {
+                setAuthorQuery(e.target.value);
+              }}
+            />
+          </div>
+          <div className="blog-cards grid grid-cols-3 grid-flow-row gap-4 py-4 ">
+            {blogs
+              .filter(
+                (blog) =>
+                  blog.Title.toLowerCase().includes(titleQuery.toLowerCase()) &&
+                  blog.Author.toLowerCase().includes(authorQuery.toLowerCase())
+              )
+              .map((blog, i) => {
+                return (
+                  <BlogCard
+                    key={i}
+                    title={blog.Title}
+                    content={blog.Content}
+                    author={blog.Author}
+                    authorimg={blog.AuthorImg}
+                    id={blog.id}
+                    blogs={blogs}
+                    setBlogs={setBlogs}
+                  />
+                );
+              })}
           </div>
         </div>
       </div>

@@ -168,17 +168,24 @@ export default function MovieGame() {
               <h1 className="text-4xl text-back font-semibold">
                 RECOMMENDATIONS FROM YOUR PICKS
               </h1>
-              <h2 className="tracking-wider font-bold">CUZ AGAIN WHY NOT?</h2>
+              <h2 className="tracking-wider font-bold">
+                Picked randomly from API (don't @ me)
+              </h2>
               <div className="recommended-movies flex flex-row gap-16">
                 {recommendList.map((recommendmovie) => {
-                  console.log(recommendmovie);
                   return recommendmovie.map((movie, i) => {
-                    console.log(movie);
-                    <MovieFrame
-                      key={i}
-                      movie={movie.title}
-                      image={movie.posterUrl}
-                    />;
+                    return (
+                      <MovieFrame
+                        key={i}
+                        movie={
+                          movie[Math.floor(Math.random() * movie.length)]?.title
+                        }
+                        image={
+                          movie[Math.floor(Math.random() * movie.length)]
+                            ?.posterUrl
+                        }
+                      />
+                    );
                   });
                 })}
               </div>

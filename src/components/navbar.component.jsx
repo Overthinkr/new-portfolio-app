@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import flightlogo from "../resources/airplane_logo.jpg";
-import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
-import { loginActions } from "../store/login.slice";
+import { UserContext } from "../context/user.context";
 
 const Navbar = () => {
   const [showUserDetails, setShowUserDetails] = useState(false);
 
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.login.login);
+  const { user, isLoggedIn } = useContext(UserContext);
   const navigate = useNavigate();
 
   const SignUserOut = () => {
@@ -18,7 +16,6 @@ const Navbar = () => {
       navigate("/");
       localStorage.removeItem("user");
       localStorage.removeItem("isLoggedIn");
-      dispatch(loginActions.toggleLoggedIn());
     });
   };
 
@@ -56,7 +53,7 @@ const Navbar = () => {
                 onMouseLeave={() => setShowUserDetails(false)}
               >
                 <img
-                  src={auth.currentUser.photoURL}
+                  src={user?.photoURL}
                   alt="prof"
                   width={35}
                   className="rounded-3xl hover:transform transition-transform hover:scale-110 cursor-pointer"
@@ -65,11 +62,11 @@ const Navbar = () => {
                   <div className="userdeets absolute right-6 top-2 mt-10 mr-10 bg-white rounded-2xl p-2 drop-shadow-md">
                     <p className="text-center text-sm font-bold">
                       {" "}
-                      {auth.currentUser.displayName}{" "}
+                      {user?.displayName}{" "}
                     </p>
                     <p className="text-center text-sm font-semibold">
                       {" "}
-                      {auth.currentUser.email}{" "}
+                      {user?.email}{" "}
                     </p>
                     <button
                       className="text-center text-lg font-semibold text-red-500 transition-all hover:transform hover:scale-105 hover:tracking-wide cursor-pointer"
