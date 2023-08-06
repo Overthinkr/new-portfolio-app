@@ -79,6 +79,8 @@ export default function MovieGame() {
     setSubmitted(true);
   };
 
+  let recommendcount = 0;
+
   return (
     <>
       <Navbar />
@@ -174,20 +176,33 @@ export default function MovieGame() {
               <div className="recommended-movies flex flex-row gap-16">
                 {recommendList.map((recommendmovie) => {
                   return recommendmovie.map((movie, i) => {
-                    return (
-                      <MovieFrame
-                        key={i}
-                        movie={
-                          movie[Math.floor(Math.random() * movie.length)]?.title
-                        }
-                        image={
-                          movie[Math.floor(Math.random() * movie.length)]
-                            ?.posterUrl
-                        }
-                      />
-                    );
+                    if (movie.length !== 0) {
+                      recommendcount++;
+                      return (
+                        <MovieFrame
+                          key={i}
+                          movie={
+                            movie[Math.floor(Math.random() * movie.length)]
+                              ?.title
+                          }
+                          image={
+                            movie[Math.floor(Math.random() * movie.length)]
+                              ?.posterUrl
+                          }
+                        />
+                      );
+                    }
+                    return null;
                   });
                 })}
+                {recommendcount === 0 && (
+                  <div className="flex flex-col gap-2">
+                    <h2 className="tracking-wider">
+                      Unfortunately, no recommendations :(
+                    </h2>
+                    <h2 className="tracking-wider">Try again!</h2>
+                  </div>
+                )}
               </div>
             </div>
           )}
