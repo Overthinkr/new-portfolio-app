@@ -42,16 +42,8 @@ export default function Blog() {
       AuthorImg: auth.currentUser.photoURL,
     });
 
-    const newBlog = {
-      Title: title,
-      Content: content,
-      Author: auth.currentUser.email,
-      AuthorImg: auth.currentUser.photoURL,
-    };
-
-    setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
-
     setAddBlog(false);
+    navigate(0);
   };
 
   return (
@@ -86,7 +78,7 @@ export default function Blog() {
                 <textarea
                   type="text"
                   placeholder="Content..."
-                  className="rounded-3xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe] h-80 whitespace-pre"
+                  className="rounded-xl ring-offset-1 ring-2 py-2 px-3 drop-shadow-md bg-[#e8f0fe] h-80 whitespace-pre"
                   onChange={(e) => {
                     setContent(e.target.value);
                   }}

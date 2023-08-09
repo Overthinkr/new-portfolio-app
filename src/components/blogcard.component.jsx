@@ -22,13 +22,11 @@ export default function BlogCard({
   const { user } = useContext(UserContext);
 
   const handleEdit = async () => {
-    console.log(title);
     const docToEdit = doc(db, "blogposts", id);
     await updateDoc(docToEdit, {
       Title: newTitle,
       Content: newContent,
     });
-    console.log(blogs);
     const newBlogs = blogs.map((blog) => {
       if (blog.id === id) {
         return {
@@ -40,7 +38,6 @@ export default function BlogCard({
         return blog;
       }
     });
-    console.log(newBlogs);
     setBlogs(newBlogs);
     setEditModal(false);
   };
@@ -94,7 +91,7 @@ export default function BlogCard({
           }}
         >
           <p
-            className="text-lg overflow-hidden whitespace-pre"
+            className="text-lg whitespace-pre-wrap"
             style={{
               display: "-webkit-box",
               WebkitLineClamp: 5,
@@ -123,7 +120,7 @@ export default function BlogCard({
                 close
               </span>
             </div>
-            <div className="blog-modal-body h-96 overflow-y-auto p-4 border-2 whitespace-pre">
+            <div className="blog-modal-body h-96 overflow-y-auto p-4 border-2 border-black whitespace-pre-line">
               <p className="text-lg">{content}</p>
             </div>
             <div className="blog-footer flex flex-row gap-4 px-2">
