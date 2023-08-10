@@ -178,17 +178,15 @@ export default function MovieGame() {
                   return recommendmovie.map((movie, i) => {
                     if (movie.length !== 0) {
                       recommendcount++;
+                      const randomIndex = Math.floor(
+                        Math.random() * movie.length
+                      );
+                      const recommendedMovie = movie[randomIndex];
                       return (
                         <MovieFrame
                           key={i}
-                          movie={
-                            movie[Math.floor(Math.random() * movie.length)]
-                              ?.title
-                          }
-                          image={
-                            movie[Math.floor(Math.random() * movie.length)]
-                              ?.posterUrl
-                          }
+                          movie={recommendedMovie?.title}
+                          image={recommendedMovie?.posterUrl}
                         />
                       );
                     }
