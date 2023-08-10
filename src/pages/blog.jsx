@@ -35,15 +35,24 @@ export default function Blog() {
 
   const handleAddBlog = async (event) => {
     event.preventDefault();
-    await addDoc(blogCollectionRef, {
+    const addref = await addDoc(blogCollectionRef, {
       Title: title,
       Content: content,
       Author: auth.currentUser.email,
       AuthorImg: auth.currentUser.photoURL,
     });
 
+    const newBlog = {
+      Title: title,
+      Content: content,
+      Author: auth.currentUser.email,
+      AuthorImg: auth.currentUser.photoURL,
+      id: addref.id,
+    };
+
+    setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
+
     setAddBlog(false);
-    navigate(0);
   };
 
   return (

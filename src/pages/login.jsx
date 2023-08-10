@@ -53,7 +53,7 @@ export default function Login() {
         } else if (errorMessage.includes("email")) {
           setAllErrors("Invalid email!");
         } else {
-          setAllErrors("Unknown error!");
+          setAllErrors("Email doesn't exist!");
         }
       });
   };

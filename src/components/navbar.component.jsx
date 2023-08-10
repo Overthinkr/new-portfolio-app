@@ -59,7 +59,7 @@ const Navbar = () => {
                   className="rounded-3xl hover:transform transition-transform hover:scale-110 cursor-pointer"
                 />
                 {showUserDetails && (
-                  <div className="userdeets absolute right-6 top-2 mt-10 mr-10 bg-white rounded-2xl p-2 drop-shadow-md">
+                  <div className="userdeets absolute right-6 top-2 mt-9 mr-10 bg-white rounded-2xl p-2 drop-shadow-md">
                     <p className="text-center text-sm font-bold">
                       {" "}
                       {user?.displayName}{" "}
