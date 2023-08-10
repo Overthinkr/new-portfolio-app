@@ -57,7 +57,7 @@ export default function BlogCard({
           Math.random() * 2
         )} justify-between`}
       >
-        <div className="blog-card-header flex flex-row justify-between items-center max-h-5 overflow-hidden">
+        <div className="blog-card-header flex flex-row justify-between items-center overflow-hidden">
           <h3 className="text-xl font-bold overflow-hidden">
             {title.toUpperCase()}
           </h3>
