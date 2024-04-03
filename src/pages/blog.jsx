@@ -58,7 +58,7 @@ export default function Blog() {
   return (
     <>
       <Navbar />
-      <div className="bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed z-0">
+      <div className="bg-gradient-to-b from-[#6DE5FF] to-white min-h-screen bg-fixed z-0">
         {addBlog && (
           <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
             <div className="bg-white w-[90%] rounded-3xl flex flex-col justify-center items-center p-8 gap-6">

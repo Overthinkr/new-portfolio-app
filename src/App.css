@@ -7,6 +7,21 @@
   pointer-events: none;
 }
 
+body {
+  font-family: "montserrat";
+}
+
+.projcard {
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.2)
+  );
+  backdrop-filter: blur(1rem);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -45,4 +60,84 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.mark {
+  width: 14px;
+  height: 14px;
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin: 0px calc(19px);
+  bottom: calc(50% - 6px);
+}
+
+.mark.mark-active {
+  background-color: #004cff;
+}
+
+.mark.mark-completed {
+  background-color: #004cff;
+}
+
+.thumb {
+  font-size: 0.1em;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 50%;
+}
+
+.thumb.active {
+  background-color: #004cff;
+}
+
+.track {
+  position: relative;
+  background: #ddd;
+}
+
+.track.track-0 {
+  background: #004cff;
+}
+
+.vertical-slider .thumb {
+  left: 16px;
+  width: 20px;
+  height: 20px;
+}
+
+.vertical-slider .track {
+  left: 23px;
+  width: 6px;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+}
+
+.steps-item {
+  padding: 10px;
+  min-height: 140px;
+}
+
+.vertical-slider {
+  height: 480px;
+  width: 25%;
+}
+
+.glass-cards {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.2)
+  );
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px);
 }

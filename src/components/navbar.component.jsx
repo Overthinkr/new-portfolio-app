@@ -21,17 +21,17 @@ const Navbar = () => {
 
   return (
     <div className="flex flex-col fixed w-full mt-10 drop-shadow-xl z-50">
-      <div className="flex flex-row justify-between w-[90%] items-center mx-auto bg-white text-center p-2 rounded-3xl h-35 z-50">
+      <div className="flex flex-row justify-between w-[70%] items-center mx-auto bg-white text-center p-2 rounded-3xl h-35 z-50">
         <div className="ml-3">
           <Link to="/">
             <img src={flightlogo} alt="logo" width={40} />
           </Link>
         </div>
         <div className="flex flex-row gap-10 mr-10 justify-center text-center items-center">
-          <NavLink to="/about">
+          <NavLink to="/">
             <h2 className="cursor-pointer hover:text-indigo hover:font-semibold hover:tracking-wider transition-all">
               {" "}
-              About Mayank{" "}
+              About Me{" "}
             </h2>
           </NavLink>
           <NavLink to="/movie-game">
@@ -59,7 +59,7 @@ const Navbar = () => {
                   className="rounded-3xl hover:transform transition-transform hover:scale-110 cursor-pointer"
                 />
                 {showUserDetails && (
-                  <div className="userdeets absolute right-6 top-2 mt- mr-10 bg-white rounded-2xl p-2 drop-shadow-md">
+                  <div className="userdeets absolute  mr-10 bg-white rounded-2xl p-2 drop-shadow-md">
                     <p className="text-center text-sm font-bold">
                       {" "}
                       {user?.displayName}{" "}

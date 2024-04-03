@@ -84,18 +84,17 @@ export default function MovieGame() {
   return (
     <>
       <Navbar />
-      <div className="bg-gradient-to-b from-toppage to-bottompage min-h-screen bg-fixed">
+      <div className="bg-gradient-to-b from-[#6DE5FF] to-white min-h-screen bg-fixed">
         <div className="flex flex-col movie-body pt-[130px] px-2 mx-28 gap-6">
           <div className="movie-headers flex flex-col gap-4">
             <h1 className="text-4xl text-back font-semibold">
               LET'S RATE YOUR TASTE
             </h1>
-            <h2 className="tracking-wider font-bold"> CUZ WHY NOT?</h2>
           </div>
           <div className="movie-deets flex flex-col gap-2">
             <p> Welcome to my taste game!</p>
             <p>
-              Soooooo, How this works is: You pick 3 tv/movies that come right
+              How this works is: You pick 3 tv/movies that come right
               outta yer head and we calculate a score for ye based on its
               popularity and ratings.
             </p>
