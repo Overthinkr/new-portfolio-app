@@ -78,7 +78,7 @@ export default function App() {
         </div>
       </div >
       <div className="projects bg-gradient-to-b from-[#6270E8] to-[#c7ccff] items-center text-center flex flex-col m-auto p-10 h-screen">
-        <p className="font-bold leading-loose text-4xl p-5">MY PROJECTS</p>
+        <p className="font-bold leading-loose text-4xl p-5">MY WEB DEV PROJECTS</p>
         <div className="flex flex-row w-[70%] gap-40">
           <div className="flex flex-row w-10 justify-between">
             <div className="container">
