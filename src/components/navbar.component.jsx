@@ -6,6 +6,12 @@ import { auth } from "../firebase-config";
 import { UserContext } from "../context/user.context";
 
 const Navbar = () => {
+  const [darkmode, setDarkmode] = useState(false);
+  const toggledarkmode = () => {
+    setDarkmode(!darkmode);
+    document.documentElement.classList.toggle("dark");
+  }
+
   const [showUserDetails, setShowUserDetails] = useState(false);
 
   const { user, isLoggedIn } = useContext(UserContext);
@@ -21,7 +27,7 @@ const Navbar = () => {
 
   return (
     <div className="flex flex-col fixed w-full mt-10 drop-shadow-xl z-50">
-      <div className="flex flex-row justify-between w-[70%] items-center mx-auto bg-white text-center p-2 rounded-3xl h-35 z-50">
+      <div className="flex flex-row justify-between w-[70%] items-center mx-auto bg-white text-center p-2 rounded-3xl h-35 z-50 dark:bg-slate-900 dark:text-white">
         <div className="ml-3">
           <Link to="/">
             <img src={flightlogo} alt="logo" width={40} />
@@ -81,6 +87,9 @@ const Navbar = () => {
               </div>
             </>
           )}
+          <button className="hover:text-indigo flex" onClick={toggledarkmode}><span class="material-symbols-outlined">
+            {darkmode ? 'dark_mode' : 'light_mode'}
+          </span></button>
         </div>
       </div>
     </div>
